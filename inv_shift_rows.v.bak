@@ -1,0 +1,29 @@
+module inv_shift_rows(
+input [127:0] input_mat,
+output [127:0] output_mat
+);
+//first column
+assign output_mat[127:120]=input_mat[127:120];
+assign output_mat[119:112]=input_mat[23:16];
+assign output_mat[111:104]=input_mat[47:40];
+assign output_mat[103:96]=input_mat[71:64];
+
+//second column
+assign output_mat[95:88]=input_mat[95:88];
+assign output_mat[87:80]=input_mat[119:112];
+assign output_mat[79:72]=input_mat[15:8];
+assign output_mat[71:64]=input_mat[39:32];
+
+//third column
+assign output_mat[63:56]=input_mat[63:56];
+assign output_mat[55:48]=input_mat[87:80];
+assign output_mat[47:40]=input_mat[111:104];
+assign output_mat[39:32]=input_mat[7:0];
+
+//fourth column
+assign output_mat[31:24]=input_mat[31:24];
+assign output_mat[23:16]=input_mat[55:48];
+assign output_mat[15:8]=input_mat[79:72];
+assign output_mat[7:0]=input_mat[103:96];
+
+endmodule 

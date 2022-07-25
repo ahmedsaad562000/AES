@@ -1,0 +1,12 @@
+module inv_subByte(
+input wire [31:0] in,
+output wire  [31:0] out
+);
+
+genvar itr;
+generate
+		for (itr = 0 ; itr <= 31; itr = itr+8) begin : loop 
+					inv_sbox sbox (in[itr +:8] , out[itr +:8]);
+					end
+endgenerate 
+endmodule

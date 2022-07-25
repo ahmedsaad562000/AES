@@ -1,0 +1,48 @@
+module key_expansion(
+input clk,reset,enable,
+input [127:0]key_input,
+output [127:0]key_output,
+input [3:0] Key_round,
+);
+wire [31:0] temp; // This is temp to do operation on the last column;
+output wire [31:0] temp2;
+wire [31:0] temp3;
+output wire [31:0] key_Rcon;
+wire [31:0] temp4;
+// make first element in column to be last and then shift from bottom to left
+
+assign temp[7:0]=key_input[31:24];
+assign temp[15:8]=key_input[7:0];
+assign temp[23:16]=key_input[15:8];
+assign temp[31:24]=key_input[23:16];
+
+// make subByte of the column after Rotword operation
+subByte sub (temp,temp2);
+
+// after making subByte temp2 will be ready to modified
+assign temp3[31:24]=temp2[31:24] ^ key_input[127:120];
+assign temp3[23:16]=temp2[23:16] ^ key_input[119:112];
+assign temp3[15:8]=temp2[15:8] ^ key_input[111:104];
+assign temp3[7:0]=temp2[7:0] ^ key_input[103:96];
+
+// after making xor with first column of Key_input, let's do Xor with Rcon matrix of this round by insert key_round as input of Key_expansion
+// to insert correct Rcon matrix
+
+rcon rrcoon (key_round,key_Rcon);
+assign temp4[31:24]=key_Rcon[31:24]^temp3[31:24];
+assign temp4[23:16]=key_Rcon[23:16]^temp3[23:16];
+assign temp4[15:8]=key_Rcon[15:8]^temp3[15:8];
+assign temp4[7:0]=key_Rcon[7:0]^temp3[7:0];
+// operations are finished, let's put values in Key_output;
+
+assign key_output[127:96]=temp4[31:0];
+assign key_output[95:64]=temp4[31:0] ^ key_input[95:64];
+assign key_output[63:32]=temp4[31:0] ^ key_input[63:32];
+assign key_output[31:0]=temp4[31:0] ^ key_input[31:0];
+
+endmodule 
+
+
+
+
+

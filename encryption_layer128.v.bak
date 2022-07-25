@@ -1,0 +1,22 @@
+module encryption_layer128 
+(
+input clk,
+input [127:0] key,
+input [8:0] in,
+output [127:0] out
+
+);
+reg [127:0] text=128'h0;
+convert8_128 c0 
+(
+.clk(clk),
+.state_in(in),
+.state_out(text)
+)
+
+
+
+
+
+
+endmodule 
